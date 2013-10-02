@@ -76,14 +76,28 @@
 
     // ROWS - run from left to right
     // --------------------------------------------------------------
-    // 
+    //
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex){
+      var row = this.get(rowIndex);
+      var numPieces = 0;
+      for (var i = 0; i<row.length; i++) {
+        numPieces += row[i];
+        if (numPieces > 1) {
+          return true;
+        }
+      }
       return false; // fixme
     },
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function(){
+      var n = this.rows().length;
+      for (var i = 0; i < n; i++) {
+        if (this.hasRowConflictAt(i)) {
+          return true;
+        }
+      }
       return false; // fixme
     },
 
@@ -94,11 +108,26 @@
     // 
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex){
+      var n = this.rows().length;
+      var numPieces = 0;
+      for (var i = 0; i < n; i++) {
+        var row = this.get(i);
+        numPieces += row[colIndex];
+        if (numPieces > 1) {
+          return true;
+        }
+      }
       return false; // fixme
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function(){
+      var n = this.rows().length;
+      for (var i = 0; i < n; i++) {
+        if (this.hasColConflictAt(i)) {
+          return true;
+        }
+      }
       return false; // fixme
     },
 
@@ -106,9 +135,33 @@
 
     // Major Diagonals - go from top-left to bottom-right
     // --------------------------------------------------------------
-    // 
+    //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow){
+      var n = this.rows().length;
+      var numPieces = 0;
+      var index = majorDiagonalColumnIndexAtFirstRow;
+      console.log(index);
+      var start;
+      var end;
+      if(index < 0) {
+        start = -index;
+        end = n;
+      } else if(index > n) {
+        console.log('index is larger than n');
+      } else {
+        start = 0;
+        end = n-index;
+      }
+
+      for(var i=start; i < end; i++) {
+        // debugger;
+        // console.log(this.get(i));
+        numPieces += this.get(i)[index+i];
+        if(numPieces > 1) {
+          return true;
+        }
+      }
       return false; // fixme
     },
 
