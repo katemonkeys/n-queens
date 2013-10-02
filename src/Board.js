@@ -141,7 +141,6 @@
       var n = this.rows().length;
       var numPieces = 0;
       var index = majorDiagonalColumnIndexAtFirstRow;
-      console.log(index);
       var start;
       var end;
       if(index < 0) {
@@ -155,8 +154,6 @@
       }
 
       for(var i=start; i < end; i++) {
-        // debugger;
-        // console.log(this.get(i));
         numPieces += this.get(i)[index+i];
         if(numPieces > 1) {
           return true;
@@ -180,14 +177,42 @@
 
     // Minor Diagonals - go from top-right to bottom-left
     // --------------------------------------------------------------
-    // 
+    //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow){
+      var n = this.rows().length;
+      var numPieces = 0;
+      var index = minorDiagonalColumnIndexAtFirstRow;
+      var start;
+      var end;
+      if(index < 0) {
+        console.log('index is invalid');
+      } else if(index < n) {
+        start = 0;
+        end = index + 1;
+      } else {
+        start = index - n + 1;
+        end = n;
+      }
+
+      for(var i=start; i < end; i++) {
+        numPieces += this.get(i)[index-i];
+        if(numPieces > 1) {
+          return true;
+        }
+      }
       return false; // fixme
     },
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function(){
+      // debugger;
+      var n = this.rows().length;
+      for (var i = 1; i < 2*n-1; i++) {
+        if (this.hasMinorDiagonalConflictAt(i)) {
+          return true;
+        }
+      }
       return false; // fixme
     }
 
