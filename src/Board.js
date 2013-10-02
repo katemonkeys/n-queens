@@ -167,6 +167,12 @@
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function(){
+      var n = this.rows().length;
+      for( var i = -n+1; i < n-1; i++){
+        if(this.hasMajorDiagonalConflictAt(i)) {
+          return true;
+        }
+      }
       return false; // fixme
     },
 
