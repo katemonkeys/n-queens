@@ -16,42 +16,55 @@ window.findNRooksSolution = function(n){
   // debugger;
   // n = 5;
   var solutions = [];
-  var keys = _.range(n);
-  var placeRook = function(keys, board){
-    if(keys.length === 0) {
-      if(!board.hasAnyRooksConflicts()) {
-        solutions.push(board);
-      }
+
+  var placeRook = function (rowsLeft,piecesArr) {
+    if (rowsLeft === 0) {
+      solutions.push(piecesArr);
       return;
     }
-    for(var i = 0; i < keys.length; i++) {
-      var tempKeys = keys.slice(0);
-      var tempBoard = board.copy();
-      tempBoard.rows()[n-keys.length][tempKeys.splice(i,1)] = 1; // modifying one row
-      placeRook(tempKeys, tempBoard);
+    // debugger;
+    var row = n - rowsLeft;
+    var unavailCol = [];
+    for (var i = 0 ; i<piecesArr.length; i++) {
+      unavailCol.push(piecesArr[i]);
+      // unavailCol.push(piecesArr[i]+(row - i));
+      // unavailCol.push(piecesArr[i]-(row - i));
+    }
+    for (var k = 0; k<n; k++) {
+      if (unavailCol.indexOf(k) === -1) {
+        var nextPiecesArr = piecesArr.concat(k);
+        placeRook(rowsLeft-1, nextPiecesArr);
+      }
     }
   };
+  // var availCol = _.range(n);
+  // var placeRook = function(avail =Col, board){
+  //   if(availCol.length === 0) {
+  //     // if(!board.hasAnyRooksConflicts()) {
+  //       solutions.push(board);
+  //     // }
+  //     return;
+  //   }
+  //   for(var i = 0; i < availCol.length; i++) {
+  //     var nextAvailCol = availCol.slice(0);
+  //     var nextBoard = board.copy();
+  //     nextBoard.rows()[n-availCol.length][nextAvailCol.splice(i,1)] = 1; // modifying one row
+  //     placeRook(nextAvailCol, nextBoard);
+  //   }
+  // };
+
+  // placeRook(availCol, ourBoard);
+
+  placeRook(n,[]);
 
   var ourBoard = new Board({n:n});
-  placeRook(keys, ourBoard);
-
-  // console.log(ourBoard.rows());
-  // // console.log(ourBoard.rows());
-  // var pieces = []; //fixmeex
-  // var availRows = _.range(n);
-  // var availCols = _.range(n);
-  // var board = new Board({'n':n});
-  // while (availRows.length) {
-  //   var pieceRow = availRows.shift();
-  //   var pieceCol = availCols.shift();
-  //   pieces.push([pieceRow,pieceCol]);
-  //   board.rows()[pieceRow][pieceCol] = 1;
-  // }
-
-
+  for(var r = 0; r < n; r++) {
+    ourBoard.rows()[r][solutions[0][r]] = 1;
+  }
+  return ourBoard;
 //  console.log('Single solution for ' + n + ' rooks:', JSON.stringify(board.rows()));
   // return ourBoard.rows();
-  return solutions[0].rows();
+  // return solutions[0].rows();
 };
 
 
@@ -78,29 +91,37 @@ window.countNRooksSolutions = function(n){
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
 window.findNQueensSolution = function(n){
-  // n=4;
+
   var solutions = [];
-  var keys = _.range(n);
-  var placeRook = function(keys, board){
-    if(keys.length === 0) {
-      if(!board.hasAnyQueensConflicts()) {
-        solutions.push(board);
-      }
+
+  var placeRook = function (rowsLeft,piecesArr) {
+    if (rowsLeft === 0) {
+      solutions.push(piecesArr);
       return;
     }
-    for(var i = 0; i < keys.length; i++) {
-      var tempKeys = keys.slice(0);
-      var tempBoard = board.copy();
-      tempBoard.rows()[n-keys.length][tempKeys.splice(i,1)] = 1; // modifying one row
-      placeRook(tempKeys, tempBoard);
+    // debugger;
+    var row = n - rowsLeft;
+    var unavailCol = [];
+    for (var i = 0 ; i<piecesArr.length; i++) {
+      unavailCol.push(piecesArr[i]);
+      unavailCol.push(piecesArr[i]+(row - i));
+      unavailCol.push(piecesArr[i]-(row - i));
+    }
+    for (var k = 0; k<n; k++) {
+      if (unavailCol.indexOf(k) === -1) {
+        var nextPiecesArr = piecesArr.concat(k);
+        placeRook(rowsLeft-1, nextPiecesArr);
+      }
     }
   };
-  // debugger;
-  var ourBoard = new Board({n:n});
-  placeRook(keys, ourBoard);
+  placeRook(n,[]);
 
-  console.log(n, solutions.length);
-  return solutions[0];
+  var ourBoard = new Board({n:n});
+  for(var r = 0; r < n; r++) {
+    ourBoard.rows()[r][solutions[0][r]] = 1;
+  }
+  return ourBoard;
+
 };
 
   // var pieces = [];
