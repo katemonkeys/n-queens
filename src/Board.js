@@ -78,6 +78,20 @@
     // --------------------------------------------------------------
     //
     // test if a specific row on this board contains a conflict
+    copy: function() {
+      var matrix = this.rows();
+      var n = this.get('n');
+      var newMatrix = [];
+      for(var i = 0; i < n; i++) {
+        var row = [];
+        for(var j = 0; j < n; j++) {
+          row.push(matrix[i][j]);
+        }
+        newMatrix.push(row);
+      }
+      return new Board(newMatrix);
+    },
+
     hasRowConflictAt: function(rowIndex){
       var row = this.get(rowIndex);
       var numPieces = 0;
