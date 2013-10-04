@@ -25,9 +25,22 @@ describe("solvers", function() {
 
   });
 
+  describe('countNRooksUniqueSolutions()', function(){
+
+    it('finds the number of valid UNIQUE solutions for n of 0-8', function(){
+      _.range(0, 8).map(function(n){
+        var solutionCount = countNRooksSolutions(n);
+        var expectedSolutionCount = [1][n];
+        expect(solutionCount).to.be.equal(expectedSolutionCount);
+      });
+    });
+
+  });
+
+
   describe('findNQueensSolution()', function(){
 
-    it('finds a valid solution for n of 0-8', function(){
+    it('finds a valid solution for n of 4-8', function(){
       _.range(4, 8).map(function(n){
         // var solutionBoard = new Board(findNQueensSolution(n));
         var solutionBoard = findNQueensSolution(n);
@@ -41,7 +54,7 @@ describe("solvers", function() {
   describe('countNQueensSolutions()', function(){
 
     it('finds the number of valid solutions for n of 0-8', function(){
-      _.range(4, 8).map(function(n){
+      _.range(0, 8).map(function(n){
         var solutionCount = countNQueensSolutions(n);
         var expectedSolutionCount = [1, 1, 0, 0, 2, 10, 4, 40, 92][n];
         expect(solutionCount).to.be.equal(expectedSolutionCount);
@@ -49,5 +62,18 @@ describe("solvers", function() {
     });
 
   });
+
+    describe('countNQueensUniqueSolutions()', function(){
+
+    it('finds the number of valid UNIQUE solutions for n of 0-8', function(){
+      _.range(1,10).map(function(n){
+        var solutionCount = countNQueensSolutions(n);
+        var expectedSolutionCount = [1, 0, 0, 1, 2, 1, 6, 12, 46, 92][n];
+        expect(solutionCount).to.be.equal(expectedSolutionCount);
+      });
+    });
+
+  });
+
 
 });
